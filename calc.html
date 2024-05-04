@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Calc</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Jersey+10&family=Jersey+20+Charted&display=swap');
+        body{
+            background-color: #151515;
+            font-family: "Jersey 10", sans-serif;
+        }
+        .calc{
+            width: 50vw;
+            margin: 30px 25vw;
+            height: 40vW;
+            display: grid;
+            grid-template-rows: repeat(10 auto);
+            grid-template-columns: repeat(5 auto);
+            background-color: #1d2123;
+            border-radius: 10px;
+            grid-auto-flow: row;
+        }
+        .screen,#mmr{
+            grid-column: span 5;
+            background-color: #434965;
+            margin: 8px;
+            padding: 10px;
+            text-align: center;
+        } 
+        .screen{
+            min-height: 3.5vw;
+            border-radius: 0 0 4px 4px;
+            font-size: 50px;
+            color: #ffd1f8;
+            margin-top: 0;
+        }  
+        #mmr{
+            border-radius: 4px 4px 0 0;
+            margin-bottom: 0;
+            color: #8b7487;
+            font-size: 30px;
+            min-height: 2vw;
+        }
+        .btn,.ent,.oprt,.backS,.C{
+            text-align  : center;
+            font-size: 60px;
+            margin: 4px;
+            border-radius: 4px;
+            border: 3px ridge #151515;
+            grid-row: span 2;
+        }
+        .btn{
+            color: #fcffdc;
+            background-color: #342543;
+        }   
+        .btn:hover{
+            background-color: #4c3a5e;
+        }
+        .ent{
+            color: #e9dcff;
+            background-color: #263a43;
+        }
+        .ent:hover{
+            background-color: #425a66;
+        }
+        .oprt{
+            color: #ffdcec;
+            background-color: #2a2e41;
+        }
+        .oprt:hover{
+            background-color: #434965;
+        }
+        .backS{
+            grid-column: span 3;
+            background-color: #1a252a;
+        }
+        .C{
+            background-color: #1a252a;
+        }
+        .backS:hover,.C:hover{
+            background-color: #1c2c33;
+        }
+    </style>
+</head>
+<body>
+    <div class="calc">
+        <div id="mmr"></div>
+        <div class="screen"></div>
+        <div class="btn" onclick="num_cl(1)">1</div>
+        <a class="btn" onclick="num_cl(6)">6</a>
+        <div class="btn" onclick="num_cl(7)">7</div>
+        <div class="oprt" onclick="dv_cl('+')">+</div>
+        <div class="oprt" onclick="dv_cl('-')">-</div>
+        <div class="btn" onclick="num_cl(2)">2</div>
+        <div class="btn" onclick="num_cl(5)">5</div>
+        <div class="btn" onclick="num_cl(8)">8</div>
+        <div class="oprt" onclick="dv_cl('*')">*</div>
+        <div class="oprt" onclick="dv_cl('/')">/</div>
+        <div class="btn" onclick="num_cl(3)">3</div>
+        <div class="btn" onclick="num_cl(4)">4</div>
+        <div class="btn" onclick="num_cl(9)">9</div>
+        <div class="btn" onclick="num_cl(0)">0</div>
+        <div class="oprt" onclick="dv_cl('^')">^</div>
+        <div class="C" onclick="c_cl()">&nbsp C &nbsp</div>
+        <div class="backS" onclick="back_cl()">Backspace <!-- ⌫ --></div>
+        <div class="ent" onclick="ent_cl()">Ent<!--▷--></div>
+
+    </div>
+    <script>
+        const screen = document.querySelector(".screen");
+        const mmr = document.querySelector("#mmr");
+        let numa = 0;
+        let dev = "";
+        let en = 0;
+        function num_cl(nm){
+            let cont = screen.innerHTML;
+            cont = cont + (nm.toString());
+            screen.innerHTML = cont;
+        }
+        function dv_cl(dv){
+            if (dev == ""){
+                mmr.innerHTML = screen.innerHTML+dv;
+                numa = Number(screen.innerHTML);
+                screen.innerHTML = "";
+            }else{
+                mmr.innerHTML = mmr.innerHTML.slice(0,-1)+dv;
+            }
+            dev = dv;
+        }
+        function c_cl(){
+            screen.innerHTML = "";
+            mmr.innerHTML = "";
+            numa = 0;
+            dev = "";
+            en = 0;
+        }
+        function back_cl(){
+            screen.innerHTML = screen.innerHTML.slice(0, -1);
+        }
+        function ent_cl(){
+            let numb = Number(screen.innerHTML);
+            if (dev == "+"){
+                en = numa + numb;
+            }else if (dev == "-"){
+                en = numa - numb;
+            }else if (dev == "*"){
+                en = numa * numb;
+            }else if (dev == "/"){
+                en = numa / numb;
+            }else if (dev == "^"){
+                en = Math.pow(numa,numb);
+            }else{ 
+                alert("Why?");
+                if (numa != 0){en = numa;}
+                else{en = numb}
+            }
+            screen.innerHTML = en.toString();
+            mmr.innerHTML = "";
+            numa = 0;
+            dev = "";
+        }
+    </script>
+</body>
+</html>
